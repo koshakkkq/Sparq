@@ -44,7 +44,7 @@ async def create_webscoket_connection(ws: WebSocket):
         return
 
     await ws.accept()
-    # TODO: Подумать как обрабатывать подключения до всех событий в event_queue
+
     events_query.connections.append((ws, username))
     try:
         while True:
@@ -52,5 +52,5 @@ async def create_webscoket_connection(ws: WebSocket):
             msq_event = await ws_handler.process(data, username)
             await events_query._events_query.put(msq_event)
     except WebSocketDisconnect:
-        # TODO: Обрабатывать отключение
+        events_query.connections.remove((ws, username))
         pass
