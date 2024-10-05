@@ -7,7 +7,7 @@ We use poetry as dependecies manager. First install poetry using
 Than acitvate venv:
 2. `poetry shell`
 Than install all dependecies:
-3. `poetry instlal`
+3. `poetry install`
 To add new dependecies use:
 `poetry add <dep_name>`
 
