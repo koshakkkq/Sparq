@@ -1,9 +1,9 @@
-class WsHanlder():
+class WsHanlder:
     def __init__(self):
         self.handlers = {}
 
     async def process(self, handler_data, user):
-        type = handler_data.get('type')
+        type = handler_data.get("type")
         if type not in self.handlers:
             return
 
