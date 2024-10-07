@@ -1,18 +1,27 @@
 ![Build Status](https://github.com/EgorDikanskiy/Sparq/actions/workflows/python-package.yml/badge.svg)
 
+### Dependecies install
 
-Dependecies install
-We use poetry as dependecies manager. First install poetry using
+We use poetry as dependecies manager.
+
+First install poetry using
+
 1. `pip install poetry`
-Than acitvate venv:
+
+Then acitvate venv:
+
 2. `poetry shell`
-Than install all dependecies:
-3. `poetry instlal`
+
+Then install all dependecies:
+
+3. `poetry install`
+
 To add new dependecies use:
+
 `poetry add <dep_name>`
 
----
+### Run the app
 
-Run dev serever:
-Run in src/
+To run the app execute this command in `src/` folder:
+
 `fastapi dev main.py`
