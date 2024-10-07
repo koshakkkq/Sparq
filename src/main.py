@@ -1,12 +1,16 @@
 import asyncio
 
-from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, Request, WebSocket, WebSocketDisconnect, Depends
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import HTMLResponse
 from contextlib import asynccontextmanager
+from sqlalchemy.ext.asyncio import AsyncSession
+from src.date import models
+from src.database import get_db
 
 from src.events_queue.events_queue import EventsQuery
 from src.ws_handlers import WsHanlder
+from datetime import datetime
 
 events_query = EventsQuery()
 
@@ -20,7 +24,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 ws_handler = WsHanlder()
-
 
 templates = Jinja2Templates(directory="templates")
 
@@ -54,3 +57,14 @@ async def create_webscoket_connection(ws: WebSocket):
     except WebSocketDisconnect:
         events_query.connections.remove((ws, username))
         pass
+
+
+@app.get("/add_date/")
+async def add_date(db: AsyncSession = Depends(get_db)):
+    new_entry = models.TestModel(timestamp=datetime.utcnow())
+
+    db.add(new_entry)
+    await db.commit()  # Асинхронный commit
+    await db.refresh(new_entry)  # Асинхронное обновление записи
+
+    return {"id": new_entry.id, "timestamp": new_entry.timestamp}
