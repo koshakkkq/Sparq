@@ -15,7 +15,7 @@ events_query = EventsQuery()
 async def lifespan(app: FastAPI):
     asyncio.create_task(events_query.run_proccesing())
     yield
-    print('Shutting down...')
+    print("Shutting down...")
 
 
 app = FastAPI(lifespan=lifespan)
@@ -37,9 +37,9 @@ async def root():
     return {"message": "Hello World"}
 
 
-@app.websocket('/ws')
+@app.websocket("/ws")
 async def create_webscoket_connection(ws: WebSocket):
-    username = ws.cookies.get('username')
+    username = ws.cookies.get("username")
     if not username:
         return
 

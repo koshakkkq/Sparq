@@ -1,1 +1,1 @@
-from src.ws_handlers import handlers # noqa
+from src.ws_handlers import handlers  # noqa
