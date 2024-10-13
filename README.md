@@ -16,3 +16,21 @@ To add new dependecies use:
 Run dev serever:
 Run in src/
 `fastapi dev main.py`
+
+### Running the app using docker-compose
+
+1. install `Docker`
+
+2. create `.env` file in the project root folder with the database credentials, for example:
+
+```.env
+POSTGRES_USER=user
+POSTGRES_DB=dbname
+POSTGRES_PASSWORD=password
+```
+
+3. execute command in the project root folder:
+
+```bash
+docker-compose up
+```
