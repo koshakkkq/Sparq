@@ -10,7 +10,7 @@ services:
   db:
     image: postgres:alpine
     restart: always
-    env_file: "example.env"
+    env_file: ".env"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
