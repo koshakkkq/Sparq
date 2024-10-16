@@ -9,16 +9,18 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
-from src.database import Base, database_url
-from src.date.models import TestModel
+from app.database import Base, database_url
+from app.users.models import User
+from app.date.models import TestModel
+
 
 config = context.config
 config.set_main_option("sqlalchemy.url", database_url)
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-target_metadata = Base.metadata
 
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

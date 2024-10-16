@@ -30,8 +30,19 @@ Run in src/
 
 ---
 
-Подключил postgresql
-Чтобы подключиться к бд нужно указать её данные в файлах `alembic.ini` и `database.py`
-При переходе на add_date/ в бд добавляется текущее дата и время
+Подключение к бд postgresql
+Чтобы подключиться к бд нужно указать её данные в файлах 
+`alembic.ini` в формате > `postgresql+asyncpg://username:password@localhost/dbname'`
+и `database.py` в формате > `database_url = 'postgresql+asyncpg://username:password@localhost/dbname'`
+Далее вводим команду чтобы применить миграции
+`alembic upgrade head`
+
+Установка зависимостей, если poetry не сработает
+`pip install -r requirements.txt`
+
+Запуск
+`uvicorn app.main:app`
+
+
 
 

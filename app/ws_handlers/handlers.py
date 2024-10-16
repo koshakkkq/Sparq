@@ -1,5 +1,5 @@
-from src.events_queue.events import SendMessageToAllUsersEvent
-from src.main import ws_handler
+from app.events_queue.events import SendMessageToAllUsersEvent
+from app.main import ws_handler
 
 
 @ws_handler.handler("sendMessage")

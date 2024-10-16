@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, DateTime
 from datetime import datetime
-from src.database import Base
+from app.database import Base
 
 
 class TestModel(Base):
