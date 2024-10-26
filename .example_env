@@ -1,0 +1,7 @@
+SECRET_KEY=ijdsfhksdfhljo3uoi3u5p395pu3w9sdjkfnsl3r3-example
+ALGORITHM=HS256-example
+DB_USERNAME=username
+DB_PASSWORD=password
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=dbname
