@@ -31,11 +31,28 @@ Run in src/
 ---
 
 Подключение к бд postgresql
-Чтобы подключиться к бд нужно указать её данные в файлах 
-`alembic.ini` в формате > `postgresql+asyncpg://username:password@localhost/dbname'`
-и `database.py` в формате > `database_url = 'postgresql+asyncpg://username:password@localhost/dbname'`
-Далее вводим команду чтобы применить миграции
-`alembic upgrade head`
+Чтобы подключиться к бд нужно указать её данные в `.env`
+##### Настройка переменных окружения
+
+Скопируйте файл `.example_env` в `.env`
+
+```Bash
+cp .example_env .env
+```
+
+Откройте файл .env в текстовом редакторе и установите необходимые переменные окружения. Вот пример:
+
+```Bash
+SECRET_KEY=ascascewq3089r9pfhpoaclawqfhejw97073pcaaw9ufc-89qwc
+ALGORITHM=HS256
+DB_USERNAME=postgres
+DB_PASSWORD=password
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=my_db
+```
+
+Далее вводим команду чтобы применить миграции `alembic upgrade head`
 
 Установка зависимостей, если poetry не сработает
 `pip install -r requirements.txt`
