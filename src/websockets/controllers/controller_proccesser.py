@@ -1,4 +1,4 @@
-class WsHanlder:
+class ControllerProcesser:
     def __init__(self):
         self.handlers = {}
 
