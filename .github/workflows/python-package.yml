@@ -32,4 +32,4 @@ jobs:
         poetry run pflake8 .
     - name: Test with pytest
       run: |
-        pytest
+        poetry run pytest
