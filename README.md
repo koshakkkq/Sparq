@@ -70,9 +70,3 @@ DB_NAME=my_db
 ```
 
 Далее вводим команду чтобы применить миграции `alembic upgrade head`
-
-Установка зависимостей, если poetry не сработает
-`pip install -r requirements.txt`
-
-
-
