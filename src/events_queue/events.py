@@ -1,4 +1,4 @@
-from .events_queue import EventsQuery
+from .events_queue import EventsQueue
 from dataclasses import dataclass
 
 
@@ -6,7 +6,6 @@ from dataclasses import dataclass
 class SendMessageToAllUsersEvent:
     msg: str
 
-    async def process(self, msg_queue: EventsQuery):
-
+    async def process(self, msg_queue: EventsQueue):
         for ws_user, _ in msg_queue.connections:
             await ws_user.send_text(self.msg)

@@ -5,12 +5,30 @@ description = ""
 authors = ["Sparq <saprq@gmail.com>"]
 readme = "README.md"
 
+[tool.black]
+line-length = 120
+target-version = ['py310']
+extend-exclude = "'"
+
+[tool.flake8]
+max-line-length = 120
+
+
 [tool.poetry.dependencies]
 python = "^3.12"
 fastapi = {extras = ["standard"], version = "^0.115.0"}
 pytest = "^8.3.3"
-flake8 = "^7.1.1"
 jinja2 = "^3.1.4"
+black = "^24.8.0"
+pydantic-settings = "^2.6.0"
+pydantic = "^2.9.2"
+sqlalchemy = "^2.0.36"
+uvicorn = "^0.32.0"
+alembic = "^1.13.3"
+asyncpg = "^0.30.0"
+psycopg2 = "^2.9.10"
+flake8 = "7.0.0"
+pyproject-flake8 = "^7.0.0"
 
 
 [build-system]
