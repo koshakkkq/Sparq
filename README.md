@@ -1,5 +1,7 @@
 ![Build Status](https://github.com/EgorDikanskiy/Sparq/actions/workflows/python-package.yml/badge.svg)
 
+Мы используем версию python 3.12.7, устанавливайте env для poetry с этой версией python.
+Подробнее в документации [poetry](https://python-poetry.org/docs/managing-environments/)
 
 Dependecies install
 We use poetry as dependecies manager. First install poetry using
@@ -31,13 +33,13 @@ docker-compose up
 ```
 ---
 
-Миграции:
+## Миграции:
+При запуске контейнера существующие миграции накатываются сами. Если вы хотите добавить миграцию
+
 `alembic revision --autogenerate -m "Имя миграции"`
 `alembic upgrade head`
 
----
-
-Как это рабоатет?
+## Как это рабоатет?
 
 Сейчас есть 3 важных компонента:
 1. В main.py есть WebSocket хэндлер, он принимает сообщения и подключения
