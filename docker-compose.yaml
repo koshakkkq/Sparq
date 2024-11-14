@@ -1,7 +1,9 @@
 services:
   app:
     build: .
-    command: poetry run uvicorn main:app --host 0.0.0.0 --workers 1 --reload
+    command: >
+     sh -c "poetry run alembic upgrade head &&
+            poetry run uvicorn main:app --host 0.0.0.0 --workers 1 --reload"
     depends_on:
       - db
     volumes:
