@@ -1,10 +1,13 @@
+import datetime
 from typing import Annotated
 
 from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.database import DatabaseRepository, get_repository
 import src.models.test_model as db_models
-from .models import TestModelPayload, TestModel
+from src.models.base_model import get_db
+
 
 router = APIRouter(prefix="/auth", tags=["chat"])
 
@@ -15,12 +18,12 @@ TestModelRepository = Annotated[
 ]
 
 
-@router.post("/test_model")
-async def add_date(
-    data: TestModelPayload,
-    repository: TestModelRepository,
-) -> TestModel:
+@router.get("/add_date/")
+async def add_date(db: AsyncSession = Depends(get_db)):
+    new_entry = TestModelRepository.TestModel(timestamp=datetime.utcnow())
 
-    test_model = await repository.create(data.model_dump())
+    db.add(new_entry)
+    await db.commit()  # Асинхронный commit
+    await db.refresh(new_entry)  # Асинхронное обновление записи
 
-    return TestModel.model_validate(test_model)
+    return {"id": new_entry.id, "timestamp": new_entry.timestamp}
