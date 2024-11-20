@@ -1,13 +1,13 @@
-from pydantic import BaseModel, Field
+# src/auth/models.py
+import uuid
+from sqlalchemy import Column, String
+from src.models.base_model import Base
 
 
-class TestModel(BaseModel):
-    id: int
-    value: str = Field(min_length=1, max_length=120)
+class User(Base):
+    __tablename__ = "users"
 
-    class Config:
-        from_attributes = True
-
-
-class TestModelPayload(BaseModel):
-    value: str = Field(min_length=1, max_length=120)
+    id = Column(String, primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
+    username = Column(String, unique=True, index=True, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
