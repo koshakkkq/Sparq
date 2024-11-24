@@ -20,6 +20,7 @@ async def add_date(
     data: TestModelPayload,
     repository: TestModelRepository,
 ) -> TestModel:
+    logger.debug(f"Payload data: {data}")
 
     test_model = await repository.create(data.model_dump())
 
