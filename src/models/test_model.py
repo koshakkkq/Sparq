@@ -1,9 +1,13 @@
-from sqlalchemy.orm import Mapped
+# src/auth/models.py
+import uuid
+from sqlalchemy import Column, String
+from src.models.base_model import Base
 
-from .base_model import Base
 
+class User(Base):
+    __tablename__ = "users"
 
-class TestModel(Base):
-    __tablename__ = "test_table"
-
-    value: Mapped[str]
+    id = Column(String, primary_key=True, index=True, default=lambda: str(uuid.uuid4()))
+    username = Column(String, unique=True, index=True, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
+    hashed_password = Column(String, nullable=False)
