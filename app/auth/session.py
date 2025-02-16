@@ -2,7 +2,7 @@ from fastapi import Request, Response
 from itsdangerous import URLSafeSerializer
 from fastapi.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
-from src.config.settings import settings
+from app.config.settings import settings
 SECRET_KEY =  settings.SECRET_KEY
 
 

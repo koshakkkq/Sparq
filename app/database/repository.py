@@ -6,8 +6,8 @@ from fastapi import Depends
 from sqlalchemy import BinaryExpression, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.models.base_model import Base as ModelBase
-from src.database.helper import get_db_session
+from app.models.base_model import Base as ModelBase
+from app.database.helper import get_db_session
 
 Model = TypeVar("Model", bound=ModelBase)
 

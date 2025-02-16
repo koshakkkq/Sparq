@@ -3,13 +3,15 @@ services:
     build: .
     command: >
      sh -c "poetry run alembic upgrade head &&
-            poetry run uvicorn main:app --host 0.0.0.0 --workers 1 --reload"
+            poetry run uvicorn app.main:app --host 0.0.0.0 --workers 1 --reload"
     depends_on:
       - db
     volumes:
       - .:/app
     environment:
       - POSTGRES_HOST=db # TODO: Поискать как не хачить HOST
+      - ENVIRONMENT=dev
+      - TESTING=0
     ports:
       - "8000:8000"
 
@@ -21,6 +23,34 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  tests:
+    build: .
+    command: >
+      sh -c "poetry run alembic upgrade head &&
+            poetry run pytest tests"
+    depends_on:
+      - test_db
+    volumes:
+      - .:/app
+    environment:
+      - POSTGRES_HOST=test_db # TODO: Поискать как не хачить HOST
+      - ENVIRONMENT=tests
+      - TESTING=1
+      - POSTGRES_DB=test_db
+
+  #TODO: Научится создавать БД test_db, в случае если TESTING=1 при начале миграции
+  test_db:
+    image: postgres:alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_HOST=127.0.0.1
+      - POSTGRES_PORT=5433
+      - POSTGRES_DB=test_db
+    ports:
+      - "5433:5432"
 
 volumes:
   postgres_data:

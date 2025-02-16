@@ -1,4 +1,4 @@
-from src.events_queue.events import SendMessageToAllUsersEvent
+from app.events_queue.events import SendMessageToAllUsersEvent
 from main import ws_procceser
 
 

@@ -1,7 +1,7 @@
 # src/protected_route.py
 from fastapi import APIRouter, Depends, Request
-from src.auth.dependencies import get_current_user
-from src.auth.session import create_session, get_session, clear_session
+from app.auth.dependencies import get_current_user
+from app.auth.session import create_session, get_session, clear_session
 router = APIRouter()
 
 @router.get("/protected")

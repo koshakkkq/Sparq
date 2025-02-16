@@ -4,13 +4,13 @@ from fastapi import FastAPI, Request, Depends
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
 from fastapi.responses import HTMLResponse
-from src.auth.dependencies import get_current_user
-from src.config.settings import settings
-from src.events_queue.events_queue import EventsQueue
-from src.websockets.controllers.controller_proccesser import (
+from app.auth.dependencies import get_current_user
+from app.config.settings import settings
+from app.events_queue.events_queue import EventsQueue
+from app.websockets.controllers.controller_proccesser import (
     ControllerProcesser
 )
-from src.routes import get_app_router
+from app.routes import get_app_router
 
 events_queue = EventsQueue()
 templates = Jinja2Templates(directory="templates")
@@ -24,7 +24,7 @@ async def lifespan(app: FastAPI):
 
 
 def get_application() -> FastAPI:
-    application = FastAPI(lifespan=lifespan)
+    application = FastAPI()
     application.include_router(get_app_router())
 
     return application
@@ -52,3 +52,7 @@ async def login_page(request: Request):
 @app.get("/protected", response_class=HTMLResponse)
 async def protected_page(request: Request, current_user: str = Depends(get_current_user)):
     return templates.TemplateResponse("protected.html", {"request": request, "user": current_user})
+
+@app.get('/healthchecker')
+def healthchecker():
+    return {"data": "alive"}
