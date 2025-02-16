@@ -1,8 +1,14 @@
 # src/protected_route.py
-from fastapi import APIRouter, Depends, Request
-from app.auth.dependencies import get_current_user
-from app.auth.session import create_session, get_session, clear_session
+from fastapi import (
+    APIRouter,
+    Request,
+    HTTPException,
+    status,
+)
+from app.auth.session import get_session
+
 router = APIRouter()
+
 
 @router.get("/protected")
 async def protected_page(request: Request):

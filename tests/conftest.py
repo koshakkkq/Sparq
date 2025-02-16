@@ -1,4 +1,3 @@
-import asyncio
 import pytest
 import pytest_asyncio
 
@@ -26,7 +25,6 @@ async def async_engine():
     await async_engine.dispose()
 
 
-
 @pytest.fixture
 def app():
     return get_application()
@@ -37,18 +35,17 @@ async def db_session(async_engine):
     async with async_engine.connect() as conn:
         await conn.begin()
         await conn.begin_nested()
-    
+
         async_session = AsyncSession(conn)
 
-        @sqlalchemy.event.listens_for(
-            async_session.sync_session, "after_transaction_end"
-        )
+        @sqlalchemy.event.listens_for(async_session.sync_session, "after_transaction_end")
         def end_savepoint(session, transaction):
             if conn.closed:
                 return
 
             if not conn.in_nested_transaction():
                 conn.sync_connection.begin_nested()
+
         yield async_session
 
         await conn.rollback()
@@ -59,6 +56,6 @@ async def db_session(async_engine):
 async def test_client(db_session, app):
     async def override_get_db_session():
         yield db_session
-    
+
     app.dependency_overrides[get_db_session] = override_get_db_session
     yield AsyncClient(app=app, base_url="http://testserver")

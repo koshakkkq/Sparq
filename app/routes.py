@@ -4,6 +4,7 @@ from fastapi import APIRouter
 from .auth.routers import router as auth_routers
 from .auth.protected_route import router as protected_router
 
+
 def get_app_router():
     router = APIRouter()
     router.include_router(auth_routers)
