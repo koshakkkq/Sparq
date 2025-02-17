@@ -4,6 +4,7 @@ version = "0.1.0"
 description = ""
 authors = ["Sparq <saprq@gmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.black]
 line-length = 120
@@ -26,13 +27,15 @@ sqlalchemy = "^2.0.36"
 uvicorn = "^0.32.0"
 alembic = "^1.13.3"
 asyncpg = "^0.30.0"
-psycopg2 = "^2.9.10"
 flake8 = "7.0.0"
 pyproject-flake8 = "^7.0.0"
 pyjwt = "^2.10.0"
 passlib = "^1.7.4"
 bcrypt = "^4.2.1"
 itsdangerous = "^2.2.0"
+psycopg2-binary = "^2.9.10"
+sqlalchemy-utils = "^0.41.2"
+pytest-asyncio = "^0.25.3"
 
 
 [build-system]

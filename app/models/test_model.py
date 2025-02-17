@@ -1,7 +1,7 @@
 # src/auth/models.py
 import uuid
 from sqlalchemy import Column, String
-from src.models.base_model import Base
+from app.models.base_model import Base
 
 
 class User(Base):

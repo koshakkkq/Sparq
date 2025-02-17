@@ -8,6 +8,8 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str
     POSTGRES_PORT: int
     POSTGRES_DB: str
+    environment: str
+    testing: bool
 
     model_config = SettingsConfigDict(env_file=".env")
 
