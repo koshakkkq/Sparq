@@ -1,8 +1,6 @@
 from fastapi import Request, WebSocket, WebSocketDisconnect, APIRouter
 from fastapi.responses import HTMLResponse
-
-from main import events_queue, templates, ws_procceser
-
+# from main import (events_queue, templates, ws_procceser)
 
 router = APIRouter(prefix="/", tags=["chat"])
 

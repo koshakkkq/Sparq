@@ -11,6 +11,15 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+
+COPY pyproject.toml poetry.lock ./
+
+
+RUN poetry config virtualenvs.create false
+
+
+RUN poetry install --no-interaction --no-ansi
+
 COPY . .
 
 RUN poetry install
