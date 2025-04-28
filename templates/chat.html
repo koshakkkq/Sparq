@@ -4,11 +4,61 @@
     <title>Real-time Chat</title>
 </head>
 <body>
+    <style>
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .form-group label {
+            flex-shrink: 0;
+        }
+
+        .form-group input {
+            flex-grow: 200px;
+            padding: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        #chatbox {
+            border: 1px solid #ccc;
+            width: 300px; /* Чатбокс на всю ширину */
+            height: 200px;
+            overflow-y: scroll;
+            margin-bottom: 10px;
+        }
+
+        .message-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .message-group input {
+            flex-grow: 200px; /* Поле ввода сообщения занимает всё оставшееся пространство */
+            padding: 5px;
+        }
+    </style>
     <h1>Real-time Chat</h1>
-    <form>
-        <label for="username">Введите ваше имя: </label>
-        <input type="text" id="username" required>
-        <button type="button" onclick="connectToChat()">Подключиться</button>
+    <form >
+        <div class="form-group">
+            <label for="username">Введите ваше имя: </label>
+            <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+            <label for="username">ID чата</label>
+            <input type="text" id="chat_id" required>
+        </div>
+        <div class="button-group">
+            <button type="button" onclick="connectToChat()">Подключиться</button>
+            <button type="button" onclick="createChat()">Создать чат</button>
+        </div>
     </form>
     <div id="chatbox" style="border: 1px solid #ccc; width: 300px; height: 200px; overflow-y: scroll;"></div>
     <form>
@@ -16,31 +66,78 @@
         <button type="button" onclick="sendMessage()">Отправить</button>
     </form>
 
-    <script>
+     <script>
         let socket;
         const chatbox = document.getElementById("chatbox");
 
-        function connectToChat() {
-            let username = document.getElementById('username').value;
-            document.cookie = 'username=' + username;
-            console.log(username)
-            if (username) {
-                socket = new WebSocket(`ws://127.0.0.1:8000/ws`);
-                socket.onmessage = function(event) {
-                    chatbox.innerHTML += event.data + "<br>";
-                    chatbox.scrollTop = chatbox.scrollHeight;
-                };
+        // Создание нового чата
+        async function createChat() {
+            let chat_id = document.getElementById("chat_id").value;
+            if (!chat_id) {
+                alert("Введите ID чата!");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/chat/create/${chat_id}`, { method: "POST" });
+
+                if (response.ok) {
+                    alert(`Чат ${chat_id} создан!`);
+                } else {
+                    const error = await response.json();
+                    alert("Ошибка: " + error.detail);
+                }
+            } catch (err) {
+                console.error("Ошибка при создании чата", err);
             }
         }
 
-        function sendMessage() {
-            const message = JSON.stringify({
-                "type": "sendMessage",
-                "text" : document.getElementById("message").value
-            });
+        // Подключение к чату
+        function connectToChat() {
+            let username = document.getElementById("username").value;
+            let chat_id = document.getElementById("chat_id").value;
 
-            if (socket && message) {
-                socket.send(message);
+            if (!username || !chat_id) {
+                alert("Введите имя и ID чата!");
+                return;
+            }
+
+            document.cookie = `username=${username}; path/`;
+
+            socket = new WebSocket(`ws://127.0.0.1:8000/chat/ws/${chat_id}?username=${encodeURIComponent(username)}`);
+
+            socket.onopen = function() {
+                console.log("Подключено к чату " + chat_id);
+                chatbox.innerHTML += "Вы подключились к чату!<br>";
+            };
+
+            socket.onerror = function(error) {
+                console.error("Ошибка WebSocket:", error);
+                alert("Ошибка подключения к чату!");
+            };
+
+            socket.onclose = function() {
+                console.log("Отключено от чата");
+                chatbox.innerHTML += "Соединение закрыто.<br>";
+            };
+
+            socket.onmessage = function(event) {
+                chatbox.innerHTML += event.data + "<br>"; // Просто вставляем строку
+                chatbox.scrollTop = chatbox.scrollHeight;
+            };
+
+        }
+
+        // Отправка сообщения
+        function sendMessage() {
+            const message = document.getElementById("message").value;
+            const username = document.getElementById("username").value;
+
+            if (socket && message && username) {
+                socket.send(JSON.stringify({
+                    message: message,
+                    username: username
+                }));
                 document.getElementById("message").value = "";
             }
         }
